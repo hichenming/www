@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'/>
+		<title>ZHDMTSys移动版</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="jquery/jquery.mobile-1.0.min.css" />
+		<script type="text/javascript" src="jquery/jquery-1.6.4.min.js"></script>
+		<script type="text/javascript" src="jquery/jquery.mobile-1.0.min.js"></script>
+		<style type="text/css">
+			#wrongtext{
+				color: red;
+			}
+		</style>
+		<script type="text/javascript">
+			function checkLogin() {
+				var url = "http://192.168.0.101:81/m/mHandler.ashx";
+				$.getJSON(url + '?name=' + $('#name').val() + '&password=' + $('#password').val() + '&jsoncallback=?', function(data) {
+					if(data[0].result != -106) {
+						if(data[0].result == -1) {
+							$('#wrongtext').text('用户不存在。');
+						} else if(data[0].result == -2) {
+							$('#wrongtext').text('用户名与密码不匹配。');
+						} else {
+							$('#wrongtext').text('数据库或服务器出错。');
+						}
+						//$('<a/>').attr('href', '#msgpage').attr('data-rel', 'dialog').attr('data-transition', 'pop').click();
+					} else {
+						var dataStore = window.sessionStorage;
+						dataStore.setItem('name', $('#name').val());
+						window.location = 'nav.html';
+					}									
+				});
+			}
+			$('#mainpage').live('pageshow', function(event){
+				var dataStore = window.sessionStorage;
+				var uname = dataStore.getItem('name');
+				if(uname != '' && uname!=null){
+					window.location = 'nav.html';
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<div data-role="page" id="mainpage">
+			<div data-role="header" data-theme='b'>
+				<a href="index.html" data-ajax="false" data-role="button" data-icon="home" data-iconpos="notext">主页</a>
+				<h1>ZHDMTSys移动版</h1>
+			</div><!-- /header -->
+			<div data-role="content">				
+				<div data-role="fieldcontain" class="ui-hide-label">
+					<label for="name">用户名：</label>
+					<input type="text" name="name" id="name" placeholder="用户名"/>
+				</div>
+				<div data-role="fieldcontain"  class="ui-hide-label">
+					<label for="password">密码：</label>
+					<input type="password" name="password" id="password" placeholder="密码"/>
+				</div>
+				<p id="wrongtext"></p>
+				<a href="javascript:;" onclick="checkLogin();"  data-role="button" id="loginbtn" data-theme='a'>登陆</a>
+			</div><!-- /content -->
+		</div><!-- /page -->
+		<div data-role="page" id="msgpage">
+			<div data-role="header" data-theme="e">
+				<h1>提示</h1>
+			</div>
+			<div data-role="content" data-theme="d">
+				<h2>登陆失败啦</h2>
+				<p id="wrongtext"></p>
+				<p>
+					<a href="#mainpage" data-rel="back" data-role="button" data-inline="true" data-icon="back">返回</a>					
+				</p>
+			</div>
+			<div data-role="footer">
+				<h4></h4>
+			</div>
+		</div>
+	</body>
+	<footer></footer>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset='utf-8'/>
+		<title>ZHDMTSys移动版</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="jquery/jquery.mobile-1.0.min.css" />
+		<script type="text/javascript" src="jquery/jquery-1.6.4.min.js"></script>
+		<script type="text/javascript" src="jquery/jquery.mobile-1.0.min.js"></script>
+		<script type="text/javascript" src="js/AquaGauge.js"></script>
+		<style type="text/css">
+		</style>
+		<script type="text/javascript">
+			var aGauge = null;
+			$('#mainpage').live('pageshow', function(event) {
+				initGauge();
+			});
+			$('#mainpage').live('pagebeforeshow', function(event) {
+				var sw = $('#mainpage').width();
+				var sh = $('#mainpage').height();
+				var minw = sw < sh ? sw : sh;
+				w = minw * 0.9;
+				$('#gauge').attr('width', w);
+				$('#gauge').attr('height', w);
+
+			});
+			function initGauge() {
+				aGauge = new AquaGauge('gauge');
+				aGauge.props.minValue = 0;
+				aGauge.props.maxValue = 100;
+				aGauge.props.noOfDivisions = 5;
+				aGauge.props.noOfSubDivisions = 4;
+				aGauge.props.showMinorScaleValue = true;
+				aGauge.props.dialTitle = "变形值";
+				aGauge.props.dialSubTitle = '单位:mm';
+				aGauge.refresh(0);
+				setInterval("getNewData()", 1000);
+			};
+
+			function getNewData() {
+				var r = Math.random() * 100;
+				aGauge.refresh(r.toFixed(2));
+			}
+		</script>
+	</head>
+	<body>
+		<div data-role="page" id="mainpage">
+			<div data-role="header" data-theme='b'>
+				<a href="index.html" data-ajax="false" data-role="button" data-icon="home" data-iconpos="notext">主页</a>
+				<h1>ZHDMTSys移动版</h1>
+			</div><!-- /header -->
+			<div data-role="content" id="mainContent">
+				<canvas id="gauge">
+					Sorry, your browser is very old. Please upgrade.
+				</canvas>
+				<select name="select-choice-style" id="select-choice-style">
+					<option value="1">GPS监测站</option>
+					<option value="2">干滩</option>
+					<option value="3">降雨量</option>
+					<option value="4">裂缝计</option>
+					<option value="5">内部位移</option>
+					<option value="6">浸润线</option>
+					<option value="7">渗流量</option>
+					<option value="3">库水位</option>
+				</select>
+				<select name="select-choice-station" id="select-choice-station" onchange="getNewData();">
+					<option value="1">gps1</option>
+					<option value="2">gps2</option>
+					<option value="3">gps3</option>
+				</select>
+			</div><!-- /content -->
+		</div><!-- /page -->
+	</body>
+	<footer></footer>
+</html>

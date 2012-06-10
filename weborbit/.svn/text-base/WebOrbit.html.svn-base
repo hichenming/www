@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>WebOrbit：武汉大学测绘学院，陈明，毕业设计</title>
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		<link rel="stylesheet" type="text/css" href="css/floating_window_with_tabs.css" media="screen" />
+		<link href="js/ui/jquery.ui.all.min.css" rel="stylesheet" type="text/css"/>
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript" src="js/jquery.ui.core.min.js"></script>
+		<script type="text/javascript" src="js/jquery.ui.widget.min.js"></script>
+		<script type="text/javascript" src="js/jquery.ui.datepicker.min.js"></script>
+		<script type="text/javascript" src="js/swfobject.js"></script>		
+		<script type="text/javascript" src="js/zingchart/zingchart-html5beta-min.js"></script>
+		<script type="text/javascript" src="js/zingchart/license.js"></script>
+		<script type="text/javascript" src="js/lang.js"></script>
+		<script type="text/javascript" src="js/floating_window_with_tabs.js"></script>
+		<script type="text/javascript" src="js/draw.js"></script>
+		<script type="text/javascript" src="js/eventHandler.js"></script>		
+	</head>
+	<body>		
+		<div id="toolnav">
+			<span id="msgtext"></span>
+			<div style="background: none; border-left: none; border-right:1px solid #161616; height: 22px; padding: 0; cursor: default">
+			</div>
+			<div id="satChoose">
+				卫星
+			</div>
+			<div id="displayConfig">
+				设置
+			</div>
+			<div id="viewInfo">
+				查看
+			</div>
+			<div id="view3Dearth">
+				三维
+			</div>
+			<div style="background: none; border-left: none; border: none; border-left:1px solid #3e3e3e; height: 22px; padding: 0; cursor: default">
+			</div>
+		</div>
+		<div id="flashwrapper"></div>
+		<div id="chartdiv"></div>
+		<canvas id="canvas1" width="1215" height="615">
+			<span id="alerttext">我靠，你的浏览器不支持，换个Chrome、Firefox或IE9再试试吧。</span>
+		</canvas>
+		<script type="text/javascript">
+			var canvas = document.getElementById('canvas1');
+			var context = canvas.getContext('2d');
+			var outWidth = 15;  //左边外边框的长宽，用于画网络和数字
+			var worldWidth = 1200;
+			var worldHeight = 600;
+			var canvasData;
+			var orbitJsonData;
+			var curTleFile;
+			var curChartId;
+			var viewMode = '2d'; 
+
+			drawBackground(true);
+		</script>
+		<div id="window1">
+			<div class="floatingWindowContent">
+				<a href="javascript:;" id="selectAllSat">全选</a> |
+				<a href="javascript:;" id="deSelectSat">反选</a> 
+				<div id="satList">
+					
+				</div>
+				<input id="satRedrawBtn" type="button" value="应用" />
+			</div>
+			<div class="floatingWindowContent">				
+				<div id="almList">
+
+				</div>
+				<input type="button" id="loadSelectAlm" value="载入" />
+			</div>
+		</div>
+		<div id="window2">
+			<div class="floatingWindowContent">
+				<span>经度：</span><input id="satlon" class="setinput" value="116.0"/>度<br />
+				<span>纬度：</span><input id="satlat" class="setinput" value="40.0"/>度<br />
+				<span>高程：</span><input id="satalt" class="setinput" value="0"/>米<br />
+				<span>日期：</span><input id="calcDate" class="setinput"/><br />
+				<input type="button" value="应用" id="setApplyBtn1" />				
+			</div>
+		</div>
+		<div id="window3">
+			<div class="floatingWindowContent">
+				<input type="button" value="卫星平面轨道" id="viewSatOrbit" /><br />
+				<input type="button" value="卫星可见数分布" id="viewNumChart" /><br />
+				<input type="button" value="高度角分布" id="viewEleChart" /><br />
+				<input type="button" value="DOP值分布" id="viewDopChart" /><br />
+			</div>
+		</div>
+		<script type="text/javascript">
+			// windowID,tabs,windowHeight,windowWidth,leftPos,topPos,noScrollbars,noResize,noStatusBar,noCloseButton,noMinimizeButton
+			initFloatingWindowWithTabs('window1',Array('卫星','星历'),400,180,800,50,false,false,false,false);
+			initFloatingWindowWithTabs('window2',Array('测站'),100,200,900,50,true,false,false,false);
+			initFloatingWindowWithTabs('window3',Array('查看'),200,150,950,60,true,false,false,false);
+		</script>
+		<div class="clear"></div>
+		<div id="footer">
+			<p>2011 武汉大学测绘学院 陈明 毕业设计作品</p>
+			<p>指导老师 李英冰</p>
+			<p>版权所有 严禁用于商业用途</p>
+		</div>
+	</body>
+</html>

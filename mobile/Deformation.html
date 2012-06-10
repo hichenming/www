@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>变形曲线图</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="jquery/jquery.mobile-1.0.min.css" />
+		<script type="text/javascript" src="jquery/jquery-1.6.4.min.js"></script>
+		<script type="text/javascript" src="jquery/jquery.mobile-1.0.min.js"></script>
+		<script type="text/javascript" src="js/flot/jquery.flot.min.js"></script>
+		<style type="text/css">
+			#chart {
+				width: 100%;
+				margin-top: 10px;
+				position: relative;
+			}
+		</style>
+		<script type="text/javascript">
+			var TimeStaArr = ["年", "月", "周", "天"];
+			var TimeStaIndex = 2;
+			var placeholder;
+
+			function ChangeTimeSta(staIndex) {
+				TimeStaIndex = staIndex;
+				$('#btnPre span.ui-btn-text').text('上一' + TimeStaArr[staIndex]);
+				$('#btnNext span.ui-btn-text').text('下一' + TimeStaArr[staIndex]);
+			}
+
+			var times = []
+			var d1 = []
+			var d2 = []
+			var d3 = []
+			for(var i = 0; i < 48; i++) {
+				var d = new Date("2011/11/21 00:00:00");
+				var hour = d.getHours();
+				d = d.setHours(i + hour);
+
+				d1.push([d, Math.random() * 10]);
+				d2.push([d, Math.random() * 8]);
+				d3.push([d, Math.random() * 6]);
+			}
+			var options = {
+				xaxis : {
+					mode : "time",
+					timeformat : "%m-%d %H:%M",
+					minTickSize : [1, "hour"],
+				},
+				yzxis : {
+
+				},
+				lines : {
+					show : "true"
+				},
+				colors : ["#2A8FBD"]
+			};
+			$('#chartpage').live('pageshow', function(event) {
+				DrawChart(d1);
+			});
+			function DrawChart(data) {
+				placeholder = $("#chart");				
+				$('#chart').css('height', Math.floor((document.width !== undefined)?document.width:document.body.offsetWidth) /2 );
+				var plot = $.plot(placeholder, [data], options);
+			}
+		</script>
+	</head>
+	<body>
+		<div data-role="page" id="chartpage">
+			<div data-role="header" data-theme='b'>
+				<a href="index.html" data-ajax="false" data-role="button" data-icon="home" data-iconpos="notext">主页</a>
+				<h1>GPS监测变形曲线图</h1>
+			</div>
+			<div data-role="content">
+				<select name="station-select" id="station-select" onchange="" data-native-menu="true">
+					<option>选择监测站:</option>
+					<option value="gps01" selected="true">GPS监测站01号</option>
+					<option value="gps02">GPS监测站02号</option>
+					<option value="gps03">GPS监测站03号</option>
+					<option value="gps04">GPS监测站04号</option>
+				</select>
+				<div data-role="navbar">
+					<ul>
+						<li>
+							<a href="" class="ui-btn-active" onclick='DrawChart(d1);'>X方向</a>
+						</li>
+						<li>
+							<a href="" onclick='DrawChart(d2);'>Y方向</a>
+						</li>
+						<li>
+							<a href="" onclick='DrawChart(d3);'>H方向</a>
+						</li>
+					</ul>
+				</div>
+				<div id="chart" style="width:100%"></div>
+				<div data-role="controlgroup" data-type="horizontal">
+					<a href="" id="btnPre" style="" data-role="button" data-inline="true" data-icon="arrow-l" data-iconpos="left">上一周</a>
+					<a href="" id="btnNext" style="float: right;" data-role="button" data-inline="true" data-icon="arrow-r" data-iconpos="right">下一周</a>
+				</div>
+			</div>
+			<div data-role="footer">
+				<div data-role="navbar">
+					<ul>
+						<li>
+							<a href="" onclick="ChangeTimeSta(0);" data-role="button">年</a>
+						</li>
+						<li>
+							<a href="" onclick="ChangeTimeSta(1);" data-role="button">月</a>
+						</li>
+						<li>
+							<a href="" onclick="ChangeTimeSta(2);" data-role="button" class="ui-btn-active">周</a>
+						</li>
+						<li>
+							<a href="" onclick="ChangeTimeSta(3);" data-role="button">天</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

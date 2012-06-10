@@ -1,0 +1,66 @@
+{
+	"graphset": [
+		{
+			"type": "line",
+			"plotarea": {
+				"margin": "100px 20px 60px 60px"
+			},
+			"title": {
+				"text": "高度角分布图",
+				"font-family": "Trebuchet MS",
+				"font-size": 28,
+				"font-color": "#6a921f",
+				"background-color": -1,
+				"margin-top": 15,
+				"margin-left": 40,
+				"margin-bottom": 10,
+				"text-align": "left"
+			},
+			"legend": {
+				"visible": true,
+				"layout": "4x8",
+				"position": "95% 0%",
+				"item": {
+					"font-size": "8px",
+					"height": "15px",
+					"shadow": 0
+				}
+			},
+			"scale-x": {
+				"label": {
+					"text": "时间",
+					"font-size": 16
+				},
+				"values": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+			},
+			"scale-y": {
+				"label": {
+					"text": "高度角",
+					"font-size": 16
+				}
+			},
+			"plot": {
+				"tooltip-text": "卫星: %t<br>时间: %k<br>高度角: %v<br>"
+			},
+			"series": [
+				{
+					"line-width": "1px",
+					"values": ["5.13", "4.18", "3.75", "2.59", "1.78", "1.49", ".79", "1.02", "1.63", "3.19", "5.9", "5.62"],
+					"text": "GPS卫星名称1"
+				}, {
+					"line-width": "1px",
+					"values": ["3.92", "3.3", "3.85", "3.6", "3.24", "3.22", "3.06", "3.37", "3.79", "3.98", "3.73"],
+					"text": "GPS卫星名称2"
+				}, {
+					"line-width": "1px",
+					"values": ["2.22", "1.51", "1.86", "2.06", "3.45", "4.57", "3.27", "5.4", "5.45", "4.34", "2.64", "2.14"],
+					"text": "GPS卫星名称3"
+				}, {
+					"line-width": "1px",
+					"values": ["1.8", "1.53", "1.77", ".79", ".19", ".07", ".02", ".1", ".24", ".37", "1.45", "1.57"],
+					"text": "GPS卫星名称4"
+				}
+			]
+		}
+	]
+}

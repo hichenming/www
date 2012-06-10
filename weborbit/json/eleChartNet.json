@@ -1,0 +1,50 @@
+{
+	"graphset": [
+		{
+			"type": "line",
+			"plotarea": {
+				"margin": "100px 20px 60px 60px"
+			},
+			"title": {
+				"text": "高度角分布图",
+				"font-family": "Trebuchet MS",
+				"font-size": 28,
+				"font-color": "#6a921f",
+				"background-color": -1,
+				"margin-top": 15,
+				"margin-left": 40,
+				"margin-bottom": 10,
+				"text-align": "left"
+			},
+			"legend": {
+				"visible": true,
+				"layout": "4x8",				
+				"position": "95% 0%",
+				"item": {
+					"font-size": "8px",
+					"height": "15px",					
+					"shadow": 0
+				}
+			},
+			"scale-x": {
+				"label": {
+					"text": "时间",
+					"font-size": 16
+				},
+				"values": [123456chenming1]
+			},
+			"scale-y": {
+				"label": {
+					"text": "高度角",
+					"font-size": 16
+				}
+			},
+			"plot": {
+				"tooltip-text": "卫星: %t<br>时间: %k<br>高度角: %v<br>"
+			},
+			"series": [
+				123456chenming2
+			]
+		}
+	]
+}
