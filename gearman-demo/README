@@ -1,0 +1,4 @@
+开户服务：
+    nohup node server.js & > worker.log
+运行gearman：
+    gearmand -d
