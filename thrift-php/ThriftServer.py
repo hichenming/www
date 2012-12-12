@@ -26,9 +26,10 @@ class ThriftServer:
 
         # You could do one of these for a multithreaded server
         #server = TServer.TThreadedServer(processor, transport, tfactory, pfactory)
-        server = TServer.TThreadPoolServer(processor, transport, tfactory, pfactory)
-        server.daemon = True #enable ctrl+c to exit the server
-        server.setNumThreads(100);
+        #server = TServer.TThreadPoolServer(processor, transport, tfactory, pfactory)
+        #server.daemon = True #enable ctrl+c to exit the server
+        #server.setNumThreads(100);
+        server = TServer.TForkingServer(processor, transport, tfactory, pfactory)
 
         print 'Starting the server...'
         server.serve()
