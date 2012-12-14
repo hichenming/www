@@ -2,11 +2,18 @@
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TServer.Args;
 import org.apache.thrift.server.TSimpleServer;
+import org.apache.thrift.server.TThreadedSelectorServer;
 import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TSSLTransportFactory;
 import org.apache.thrift.transport.TServerSocket;
+import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TServerTransport;
+import org.apache.thrift.transport.TFramedTransport;
+import org.apache.thrift.transport.TNonblockingServerTransport;
+import org.apache.thrift.transport.TTransportFactory;
 import org.apache.thrift.transport.TSSLTransportFactory.TSSLTransportParameters;
+import org.apache.thrift.protocol.TProtocolFactory;
+import org.apache.thrift.protocol.TCompactProtocol;
 
 // Generated code
 import mongotest.*;
@@ -23,31 +30,54 @@ public class ThriftServer {
       handler = new MongoTestHandler();
       processor = new MongoTest.Processor(handler);
 
-      Runnable simple = new Runnable() {
+      Runnable threadPool = new Runnable() {
         public void run() {
-          simple(processor);
+          threadPool(processor);
         }
       };
-      Runnable secure = new Runnable() {
-        public void run() {
-          secure(processor);
-        }
-      };
+      //Runnable secure = new Runnable() {
+        //public void run() {
+          //secure(processor);
+        //}
+      //};
 
-      new Thread(simple).start();
-      new Thread(secure).start();
+      new Thread(threadPool).start();
+      //new Thread(secure).start();
     } catch (Exception x) {
       x.printStackTrace();
     }
   }
 
-  public static void simple(MongoTest.Processor processor) {
+  public static void threadPool(MongoTest.Processor processor) {
     try {
       TServerTransport serverTransport = new TServerSocket(9090);
       //TServer server = new TSimpleServer(new Args(serverTransport).processor(processor));
 
       // Use this for a multithreaded server
-       TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
+      TThreadPoolServer.Args args = new TThreadPoolServer.Args(serverTransport).processor(processor);
+      args.maxWorkerThreads = 50;
+      TServer server = new TThreadPoolServer(args);
+
+      System.out.println("Starting the server...");
+      server.serve();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public static void threadSelector(MongoTest.Processor processor) {
+    try {
+      TNonblockingServerTransport serverTransport = new TNonblockingServerSocket(9090);
+      //异步IO，需要使用TFramedTransport，它将分块缓存读取。
+      TTransportFactory transportFactory = new TFramedTransport.Factory();
+      //使用高密度二进制协议
+      TProtocolFactory proFactory = new TCompactProtocol.Factory();
+      TServer server = new TThreadedSelectorServer(
+              new TThreadedSelectorServer.Args(serverTransport)
+              .protocolFactory(proFactory)
+              .transportFactory(transportFactory)
+              .processor(processor)
+              );
 
       System.out.println("Starting the server...");
       server.serve();
@@ -79,7 +109,9 @@ public class ThriftServer {
       //TServer server = new TSimpleServer(new Args(serverTransport).processor(processor));
 
       // Use this for a multi threaded server
-       TServer server = new TThreadPoolServer(new TThreadPoolServer.Args(serverTransport).processor(processor));
+      TThreadPoolServer.Args args = new TThreadPoolServer.Args(serverTransport).processor(processor);
+      args.maxWorkerThreads = 50;
+       TServer server = new TThreadPoolServer(args);
 
       System.out.println("Starting the secure server...");
       server.serve();
