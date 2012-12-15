@@ -26,4 +26,4 @@
 # -Djavax.net.ssl.keyStore=../../lib/java/test/.keystore
 # -Djavax.net.ssl.keyStorePassword=thrift
 
-java -cp ./lib/java/build/lib/*:./lib/java/build/*:./jar/*:mongotest.jar ThriftServer
+java -cp ./lib/java/build/lib/*:./lib/java/build/*:./jar/*:mongotest.jar JavaServer

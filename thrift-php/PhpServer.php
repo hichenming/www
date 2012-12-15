@@ -7,7 +7,8 @@ error_reporting(E_ALL);
 
 
 $handler = new MongoTestHandler();
-$server = new ThriftServer($handler, '\mongotest\MongoTestProcessor');
+$processor = new \mongotest\MongoTestProcessor($handler);
+$server = new ThriftServer($processor);
 $server->startServer();
 
 

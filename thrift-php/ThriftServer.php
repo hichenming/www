@@ -21,20 +21,18 @@ use Thrift\Factory\TBinaryProtocolFactory;
 
 class ThriftServer {
 
-    private $processor_class;
-    private $server_class_handler;
+    private $processor;
     private $server_ip;
     private $server_port;
 
-    function __construct($server_class_handler, $processor_class, $server_ip="localhost", $server_port=9090){
-        $this->processor_class = $processor_class;
-        $this->server_class_handler = $server_class_handler;
+    function __construct($processor, $server_ip="localhost", $server_port=9090){
+        $this->processor = $processor;
         $this->server_ip = $server_ip;
         $this->server_port = $server_port;
     }
 
     function startServer(){
-        $processor = new $this->processor_class($this->server_class_handler);
+        $processor = $this->processor;
         try {
             $transport = new TServerSocket($this->server_ip, $this->server_port);
         } catch (Exception $e) {
@@ -55,6 +53,7 @@ class ThriftServer {
         );
 
         header('Content-Type: application/x-thrift');
+        print 'Starting the server...';
         $server->serve();
     }
 

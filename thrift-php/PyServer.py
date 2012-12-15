@@ -8,6 +8,7 @@ from MongoTestHandler import MongoTestHandler
 from mongotest import MongoTest
 
 handler = MongoTestHandler()
-server = ThriftServer(handler, MongoTest, 9090)
+processor = MongoTest.Processor(handler)
+server = ThriftServer(processor, 9090)
 
 server.startServer()

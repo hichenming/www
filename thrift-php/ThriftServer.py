@@ -11,13 +11,12 @@ from thrift.server import TServer
 
 class ThriftServer:
 
-    def __init__(self, serviceClassHander, serverClass, port=9090):
-        self.handler = serviceClassHander
+    def __init__(self, processor, port=9090):
+        self.processor = processor
         self.port = port
-        self.serverClass = serverClass
 
     def startServer(self):
-        processor = self.serverClass.Processor(self.handler)
+        processor = self.processor
         transport = TSocket.TServerSocket(port=self.port)
         tfactory = TTransport.TBufferedTransportFactory()
         pfactory = TBinaryProtocol.TBinaryProtocolFactory()

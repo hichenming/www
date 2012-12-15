@@ -15,21 +15,16 @@ import org.apache.thrift.transport.TSSLTransportFactory.TSSLTransportParameters;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.protocol.TCompactProtocol;
 
-// Generated code
-import mongotest.*;
-
 
 public class ThriftServer {
+  public org.apache.thrift.TProcessor processor;
 
-  public static MongoTestHandler handler;
+  public ThriftServer(org.apache.thrift.TProcessor processor){
+    this.processor = processor;
+  }
 
-  public static MongoTest.Processor processor;
-
-  public static void main(String [] args) {
+  public void startServer() {
     try {
-      handler = new MongoTestHandler();
-      processor = new MongoTest.Processor(handler);
-
       Runnable threadPool = new Runnable() {
         public void run() {
           threadPool(processor);
@@ -48,7 +43,7 @@ public class ThriftServer {
     }
   }
 
-  public static void threadPool(MongoTest.Processor processor) {
+  public void threadPool(org.apache.thrift.TProcessor processor) {
     try {
       TServerTransport serverTransport = new TServerSocket(9090);
       //TServer server = new TSimpleServer(new Args(serverTransport).processor(processor));
@@ -65,7 +60,7 @@ public class ThriftServer {
     }
   }
 
-  public static void threadSelector(MongoTest.Processor processor) {
+  public void threadSelector(org.apache.thrift.TProcessor processor) {
     try {
       TNonblockingServerTransport serverTransport = new TNonblockingServerSocket(9090);
       //异步IO，需要使用TFramedTransport，它将分块缓存读取。
@@ -86,7 +81,7 @@ public class ThriftServer {
     }
   }
 
-  public static void secure(MongoTest.Processor processor) {
+  public void secure(org.apache.thrift.TProcessor processor) {
     try {
       /*
        * Use TSSLTransportParameters to setup the required SSL parameters. In this example
