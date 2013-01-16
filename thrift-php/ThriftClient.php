@@ -17,7 +17,12 @@ use Thrift\Transport\TSocket;
 use Thrift\Transport\THttpClient;
 use Thrift\Transport\TBufferedTransport;
 use Thrift\Exception\TException;
-
+/**
+ * usage:
+ *     $thrift = new ThriftClient('\mongotest\MongoTestClient', 'localhost', 9090);
+ *     $client = $thrift->getClient();
+ *     $ret = $client->getServerStatus();
+ */
 class ThriftClient {
 
     public $client;

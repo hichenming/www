@@ -15,7 +15,13 @@ import org.apache.thrift.transport.TSSLTransportFactory.TSSLTransportParameters;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.protocol.TCompactProtocol;
 
-
+/**
+ * usage:
+ *         MongoTestHandler handler = new MongoTestHandler();
+ *         MongoTest.Processor processor = new MongoTest.Processor(handler);
+ *         ThriftServer server = new ThriftServer(processor);
+ *         server.startServer();
+ */
 public class ThriftServer {
   public org.apache.thrift.TProcessor processor;
 

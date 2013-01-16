@@ -42,7 +42,7 @@ class Contacts_Yahoo{
         $this->oauth->setToken($oauth_token, $_SESSION['oauth_token_sec']);
         $access_token_info = $this->oauth->getAccessToken(self::GET_TOKEN_URL);
         $this->oauth->setToken($access_token_info['oauth_token'], $access_token_info['oauth_token_secret']);
-        $this->oauth->fetch(self::ENDPOINT_URL, array('format'=>'json'));
+        $this->oauth->fetch(self::ENDPOINT_URL, array('format'=>'json', 'count'=>'max'));
         $res = $this->oauth->getLastResponse();
         $json = json_decode($res);
 
@@ -72,6 +72,12 @@ class Contacts_Gmail{
     const ENDPOINT_URL = 'https://www.google.com/m8/feeds/contacts/default/full/';
     const SCOPE_URL = 'https://www.google.com/m8/feeds/';
 
+    /**
+     * callback_url
+     *回调地址
+     * @var mixed
+     * @access public
+     */
     public $callback_url;
 
     public function __construct($callback_url){
@@ -130,15 +136,14 @@ class Contacts_Gmail{
         }
 
         $accesstoken= $response->access_token;
-        $xmlresponse=  file_get_contents('https://www.google.com/m8/feeds/contacts/default/full?oauth_token='.$accesstoken);
-        //echo $xmlresponse; exit();
-        $xml =  new SimpleXMLElement($xmlresponse);
+        $jsonresponse=  file_get_contents('https://www.google.com/m8/feeds/contacts/default/full?alt=json&max-results=1000&oauth_token='.$accesstoken);
+        //echo $jsonresponse; exit();
+        $res = json_decode($jsonresponse, true);
         $result = array();
-        foreach($xml->entry as $entry){
-              $dc = $entry->children('http://schemas.google.com/g/2005');   //gd命名空间
-              if(!empty($dc)){
-                  $tmp['name'] = (string)$entry->title;
-                  $tmp['email'] = (string)$dc->attributes()->address;
+        foreach($res['feed']['entry'] as $entry){
+              if(!empty($entry['gd$email'])){
+                  $tmp['name'] = $entry['title']['$t'];
+                  $tmp['email'] = $entry['gd$email'][0]['address'];
                   $result[] = $tmp;
               }
         }

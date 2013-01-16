@@ -18,7 +18,13 @@ use Thrift\Server\TServerSocket;
 use Thrift\Server\TForkingServer;
 use Thrift\Factory\TTransportFactory;
 use Thrift\Factory\TBinaryProtocolFactory;
-
+/**
+ * usage:
+ *     $handler = new MongoTestHandler();
+ *     $processor = new \mongotest\MongoTestProcessor($handler);
+ *     $server = new ThriftServer($processor);
+ *     $server->startServer();
+ */
 class ThriftServer {
 
     private $processor;
